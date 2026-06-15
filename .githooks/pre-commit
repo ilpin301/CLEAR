@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# pre-commit — LLM Wiki maintenance gate.
+# Runs before every commit to ensure the Wiki is consistent.
+
+set -e
+
+REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+cd "$REPO_ROOT"
+
+echo "Running LLM Wiki pre-commit gate..."
+
+python3 scripts/wiki_tool.py build
+python3 scripts/wiki_tool.py lint
+python3 scripts/wiki_tool.py source-lint
+
+echo "Pre-commit gate passed."
